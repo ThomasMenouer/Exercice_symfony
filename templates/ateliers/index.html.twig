@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ateliers{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Atelier</h1>
+
+    <a href="{{ path('ateliers_create') }}">Créer</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Places max</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atelier in list_ateliers %}
+                <tr>
+                    <td>{{ atelier.title }}</td>
+                    <td>{{ atelier.description }}</td>
+                    <td>{{ atelier.placesMax }}</td>
+                    <td>
+                        <a href="{{ path('ateliers_show', {'id': atelier.id}) }}">Voir</a>
+                        <a href="{{ path('ateliers_update', {'id': atelier.id}) }}">Modifier</a>
+                        <a href="{{ path('ateliers_delete', {'id': atelier.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Pas d'ateliers</td>
+                </tr>
+            {% endfor %}
+        </tbody>    
+</div>
+{% endblock %}
