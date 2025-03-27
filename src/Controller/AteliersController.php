@@ -12,10 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class AteliersController extends AbstractController
 {
-    #[Route('/ateliers', name: 'ateliers')]
+    #[Route('/', name: 'ateliers')]
     public function index(AteliersRepository $ateliers_repository): Response
     {
         $list_ateliers = $ateliers_repository->findAll();
@@ -26,6 +27,7 @@ final class AteliersController extends AbstractController
     }
 
     // CREATE
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/ateliers/create', name: 'ateliers_create')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
@@ -104,6 +106,7 @@ final class AteliersController extends AbstractController
     }
 
     // UPDATE
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/ateliers/{id}/update', name: 'ateliers_update')]
     public function update(int $id, Request $request, EntityManagerInterface $em, AteliersRepository $ateliers_repository): Response
     {
@@ -124,6 +127,7 @@ final class AteliersController extends AbstractController
     }
 
     // DELETE
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/ateliers/{id}/delete', name: 'ateliers_delete')]
     public function delete(EntityManagerInterface $em, Ateliers $ateliers): Response
     {
@@ -132,6 +136,4 @@ final class AteliersController extends AbstractController
 
         return $this->redirectToRoute('ateliers');
     }
-
-
 }

@@ -7,7 +7,9 @@
 <div class="example-wrapper">
     <h1>Atelier</h1>
 
-    <a href="{{ path('ateliers_create') }}">Créer</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('ateliers_create') }}">Créer</a>
+    {% endif %}
 
     <table class="table">
         <thead>
@@ -26,8 +28,10 @@
                     <td>{{ atelier.placesMax }}</td>
                     <td>
                         <a href="{{ path('ateliers_show', {'id': atelier.id}) }}">Voir</a>
-                        <a href="{{ path('ateliers_update', {'id': atelier.id}) }}">Modifier</a>
-                        <a href="{{ path('ateliers_delete', {'id': atelier.id}) }}">Supprimer</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('ateliers_update', {'id': atelier.id}) }}">Modifier</a>
+                            <a href="{{ path('ateliers_delete', {'id': atelier.id}) }}">Supprimer</a>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
