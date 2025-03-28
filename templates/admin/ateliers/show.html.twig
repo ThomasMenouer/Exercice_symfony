@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ atelier.title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ atelier.title }}</h1>
+
+    {{ atelier.description }}
+    <br>
+    {{ atelier.placesMax }}
+
+    <h2>Participants</h2>
+    <ul>
+        {% for participant in atelier.participants %}
+            <li>{{ participant.name }}, {{ participant.email }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -7,6 +7,8 @@
 <div class="example-wrapper">
     <h1>Atelier</h1>
 
+    <a href="{{ path('admin_ateliers_create') }}">Créer</a>
+
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +25,9 @@
                     <td>{{ atelier.description }}</td>
                     <td>{{ atelier.placesMax }}</td>
                     <td>
-                        <a href="{{ path('ateliers_show', {'id': atelier.id}) }}">Voir</a>
+                        <a href="{{ path('admin_ateliers_show', {'id': atelier.id}) }}">Voir</a>
+                        <a href="{{ path('admin_ateliers_update', {'id': atelier.id}) }}">Modifier</a>
+                        <a href="{{ path('admin_ateliers_delete', {'id': atelier.id}) }}">Supprimer</a>
                     </td>
                 </tr>
             {% else %}
