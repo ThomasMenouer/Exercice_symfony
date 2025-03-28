@@ -51,12 +51,11 @@ final class AteliersController extends AbstractController
 
     // READ
     #[Route('/ateliers/{id}', name: 'ateliers_show')]
-    public function show(int $id, AteliersRepository $ateliers_repository): Response
+    public function show(int $id, AteliersRepository $ateliers_repository, Ateliers $ateliers): Response
     {
-        $atelier = $ateliers_repository->find($id);
 
         return $this->render('ateliers/show.html.twig', [
-            'atelier' => $atelier,
+            'atelier' => $ateliers,
         ]);
     }
 
@@ -108,11 +107,10 @@ final class AteliersController extends AbstractController
     // UPDATE
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/ateliers/{id}/update', name: 'ateliers_update')]
-    public function update(int $id, Request $request, EntityManagerInterface $em, AteliersRepository $ateliers_repository): Response
+    public function update(int $id, Request $request, EntityManagerInterface $em, Ateliers $ateliers ): Response
     {
-        $atelier = $ateliers_repository->find($id);
 
-        $form = $this->createForm(AteliersType::class, $atelier);
+        $form = $this->createForm(AteliersType::class, $ateliers);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
