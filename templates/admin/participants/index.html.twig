@@ -1,0 +1,55 @@
+{% extends "admin/base_admin.html.twig" %}
+
+{% block title %}Participants{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container">
+        <div class="row text-center m-4">
+            <h1>Administration Participants</h1>
+        </div>
+        <div class="row m-4">
+            <h2>Liste des participants</h2>
+            <div>
+                <a href="{{ path('admin_participants_create') }}" class="btn btn-outline-success">Créer</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Atelier</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for participant in participants %}
+                        <tr>
+                            <td>{{ participant.id }}</td>
+                            <td>{{ participant.name }}</td>
+                            <td>{{ participant.email }}</td>
+                            <td>{{ participant.atelier }}</td>
+                            <td>
+                                <a href="{{ path('admin_participants_show', {'id': participant.id}) }}" class="btn btn-outline-primary">Voir</a>
+                                <a href="{{ path('admin_participants_edit', {'id': participant.id}) }}" class="btn btn-outline-warning">Modifier</a>
+                                <form class="d-inline" action="{{ path('admin_participants_delete', { 'id': participant.id }) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce participant ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+                                    <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Pas de participants</td>
+                        </tr>
+                    {% endfor %}
+                </tbody> 
+            </table>
+            <div class="text-center">
+                <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-primary">Retour à l'accueil</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

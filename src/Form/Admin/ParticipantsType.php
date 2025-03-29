@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Ateliers;
 use App\Entity\Participants;
@@ -41,6 +41,20 @@ class ParticipantsType extends AbstractType
                     ],
                 ]
             )
+            ->add('atelier', EntityType::class, [
+                'class' => Ateliers::class,
+                'query_builder' => function (AteliersRepository $atelierRepository) use ($atelier) {
+                    return $atelierRepository->createQueryBuilder('a')
+                    ->orderBy('a.title', 'ASC');
+                },
+                'choice_label' => 'title',
+                'label' => false,
+                'placeholder' => 'Sélectionner un atelier',
+                'required' => true,
+                'attr' => [
+                    'class' => 'form-control mb-3',
+                ],
+            ])
             ->add('inscription', SubmitType::class,
                 [
                     'label' => 'S\'inscrire',

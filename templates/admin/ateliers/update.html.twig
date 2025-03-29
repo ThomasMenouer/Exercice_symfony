@@ -1,10 +1,40 @@
-{% extends "base.html.twig" %}
+{% extends "admin/base_admin.html.twig" %}
 
 {% block title %}Modifier un atelier{% endblock %}
 
 {% block body %}
-    <h1>Modifier un atelier</h1>
 
-    {{ form (form) }}
+<main>
+    <div class="container">
+        <div class="row text-center m-4">
+            <h1>Administration ateliers</h1>
+        </div>
+        <div class="row m-4">
+            <h2>Modifier un atelier</h2>
+            <div class="col-4">
+                {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    {{ form_row(form.title) }}
+                    
+                    {{ form_row(form.description)}}
+
+                    {{ form_row(form.date) }}
+                    
+                    {{ form_row(form.placesMax) }}
+
+                    {{ form_row(form.submit, {'label': 'Modifier'}) }}
+                {{ form_end(form) }}
+            
+            </div>
+                
+
+            <div class="text-center">
+                <a href="{{ path('admin_ateliers_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+
+</main>
 
 {% endblock %}

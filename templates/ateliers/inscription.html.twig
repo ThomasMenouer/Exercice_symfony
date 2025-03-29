@@ -3,14 +3,25 @@
 {% block title %}{{ atelier.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ atelier.title }}</h1>
+<main class="mt-5">
+    <div class="container">
+        <div class="row">
 
-    {{ atelier.description }}
-    <br>
-    {{ atelier.placesMax }}
+            <h1>{{ atelier.title }}</h1>
 
-    <h2>Inscription</h2>
+            <p>{{ atelier.description }}</p>
+            
+            <p>Place max :{{ atelier.placesMax }}</p>
 
-    {{ form(form) }}
+
+            <h2>Inscription</h2>
+
+            {{form(form)}}   
+        
+        </div>
+    
+    </div>
+
+</main>
 
 {% endblock %}

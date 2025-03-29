@@ -3,34 +3,26 @@
 {% block title %}Ateliers{% endblock %}
 
 {% block body %}
+<main class="mt-5">
+    <div class="container">
+        <div class="row text-center mb-4">
+            <h1>Ateliers</h1>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Atelier</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Places max</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for atelier in list_ateliers %}
-                <tr>
-                    <td>{{ atelier.title }}</td>
-                    <td>{{ atelier.description }}</td>
-                    <td>{{ atelier.placesMax }}</td>
-                    <td>
-                        <a href="{{ path('ateliers_show', {'id': atelier.id}) }}">Voir</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="3">Pas d'ateliers</td>
-                </tr>
+
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ atelier.title }}</h5>
+                            <p class="card-text">{{ atelier.description }}</p>
+                            <a href="{{ path('ateliers_show', {'id': atelier.id}) }}" class="btn btn-outline-primary">Voir</a>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
-        </tbody>    
-</div>
+        </div>
+    </div>
+</main>
 {% endblock %}

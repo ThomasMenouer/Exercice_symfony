@@ -3,19 +3,36 @@
 {% block title %}{{ atelier.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ atelier.title }}</h1>
 
-    {{ atelier.description }}
-    <br>
-    {{ atelier.placesMax }}
+<main class="mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ atelier.title }}</h1>
+                <p>{{ atelier.description }}</p>
+                <p>Places max: {{ atelier.placesMax }}</p>
+                <p>Participants: {{ atelier.participants | length }} </p>
 
-    <h2>Participants</h2>
-    <ul>
-        {% for participant in atelier.participants %}
-            <li>{{ participant.name }}, {{ participant.email }}</li>
-        {% endfor %}
-    </ul>
+                {% if atelier.participants | length  >= atelier.placesMax %}
 
-    <a href="{{ path('ateliers_inscription', {'id': atelier.id}) }}">S'inscrire</a>
+                    <p>Plus de place disponible.</p>
+
+                {% else %}
+                    <p>Il reste {{ atelier.placesMax - (atelier.participants | length) }} place(s) disponible(s).</p>
+                    <a href="{{ path('ateliers_inscription', {'id': atelier.id}) }}" class="btn btn-outline-primary">S'inscrire</a>
+                    
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="text-center">
+                <a href="{{ path('ateliers_index') }}" class="btn btn-outline-primary">Accueil atelier</a>
+            </div>
+        
+        </div>
+    
+    </div>
+</main>
 
 {% endblock %}

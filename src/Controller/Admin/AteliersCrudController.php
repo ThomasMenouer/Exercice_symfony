@@ -19,15 +19,14 @@ final class AteliersCrudController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(AteliersRepository $ateliers_repository): Response
     {
-        $list_ateliers = $ateliers_repository->findAll();
 
         return $this->render('admin/ateliers/index.html.twig', [
-            'list_ateliers' => $list_ateliers,
+            'list_ateliers' => $ateliers_repository->findAll(),
         ]);
     }
 
     // CREATE
-    #[Route('/create', name: 'create')]
+    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $atelier = new Ateliers();
@@ -49,8 +48,8 @@ final class AteliersCrudController extends AbstractController
     }
 
     // READ
-    #[Route('/{id}', name: 'show')]
-    public function show(int $id, AteliersRepository $ateliers_repository, Ateliers $ateliers): Response
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(Ateliers $ateliers): Response
     {
 
         return $this->render('admin/ateliers/show.html.twig', [
@@ -59,7 +58,7 @@ final class AteliersCrudController extends AbstractController
     }
 
     // UPDATE
-    #[Route('/{id}/update', name: 'update')]
+    #[Route('/{id}/update', name: 'update', methods: ['GET', 'POST'])]
     public function update(int $id, Request $request, EntityManagerInterface $em, Ateliers $ateliers ): Response
     {
 
@@ -83,11 +82,14 @@ final class AteliersCrudController extends AbstractController
     }
 
     // DELETE
-    #[Route('/{id}/delete', name: 'delete')]
-    public function delete(EntityManagerInterface $em, Ateliers $ateliers): Response
+    #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, EntityManagerInterface $em, Ateliers $ateliers): Response
     {
-        $em->remove($ateliers);
-        $em->flush();
+        // Vérifier le token CSRF
+        if ($this->isCsrfTokenValid('delete' . $ateliers->getId(), $request->request->get('_token'))) {
+            $em->remove($ateliers);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('admin_ateliers_index');
     }

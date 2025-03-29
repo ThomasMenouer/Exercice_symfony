@@ -1,19 +1,43 @@
-{% extends "base.html.twig" %}
+{% extends "admin/base_admin.html.twig" %}
 
 {% block title %}{{ atelier.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ atelier.title }}</h1>
 
-    {{ atelier.description }}
-    <br>
-    {{ atelier.placesMax }}
+<main>
 
-    <h2>Participants</h2>
-    <ul>
-        {% for participant in atelier.participants %}
-            <li>{{ participant.name }}, {{ participant.email }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="row text-center m-4">
+            <h1>Administration ateliers</h1>
+        </div>
+        <div class="row m-4">
+            <h2>Détails de l'atelier</h2>
+            <div class="col-4">
+                <h3>{{ atelier.title }}</h3>
+
+                <p>{{ atelier.description }}</p>
+                <p>Date de l'atelier: {{ atelier.date|date('d/m/Y H:i') }}</p>
+                <p>Nombre de place  : {{ atelier.placesMax }}</p>
+                <p>Participants :</p>
+                <ul>
+                    {% for participant in atelier.participants %}
+                        <li>{{ participant.name }}, {{ participant.email }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>Places restantes : {{ atelier.placesMax - atelier.getParticipants | length }}</p>
+                
+                {% if atelier.placesMax - atelier.getParticipants | length == 0 %}
+                    <p class="text-danger">Complet</p>
+                {% else %}
+                    <p class="text-success">Disponible</p>
+                {% endif %}
+            <div class="col-4">
+                <a href="{{ path('admin_ateliers_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+
+</main>
 
 {% endblock %}

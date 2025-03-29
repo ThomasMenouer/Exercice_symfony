@@ -1,0 +1,39 @@
+{% extends "admin/base_admin.html.twig" %}
+
+{% block title %}Edit Participants{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container">
+        <div class="row text-center m-4">
+            <h1>Administration Partcipants</h1>
+        </div>
+        <div class="row m-4">
+            <h2>Éditer un participant</h2>
+            <div class="col-4 mb-5">
+
+                {{ form_start(form) }}
+                    {{ form_errors(form) }}
+
+                    {{ form_row(form.name) }}
+                    
+
+                    {{ form_row(form.email) }}
+
+                    {{ form_row(form.atelier) }}
+
+                    {{ form_row(form.inscription, {'label': 'Modifier'}) }}
+                {{ form_end(form) }}
+            
+            </div>
+                
+
+            <div class="text-center mx-auto">
+                <a href="{{ path('admin_participants_index') }}" class="btn btn-outline-primary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

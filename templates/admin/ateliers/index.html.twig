@@ -1,40 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends "admin/base_admin.html.twig" %}
 
 {% block title %}Ateliers{% endblock %}
 
 {% block body %}
 
-<div class="example-wrapper">
-    <h1>Atelier</h1>
-
-    <a href="{{ path('admin_ateliers_create') }}">Créer</a>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Places max</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for atelier in list_ateliers %}
-                <tr>
-                    <td>{{ atelier.title }}</td>
-                    <td>{{ atelier.description }}</td>
-                    <td>{{ atelier.placesMax }}</td>
-                    <td>
-                        <a href="{{ path('admin_ateliers_show', {'id': atelier.id}) }}">Voir</a>
-                        <a href="{{ path('admin_ateliers_update', {'id': atelier.id}) }}">Modifier</a>
-                        <a href="{{ path('admin_ateliers_delete', {'id': atelier.id}) }}">Supprimer</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="3">Pas d'ateliers</td>
-                </tr>
-            {% endfor %}
-        </tbody>    
-</div>
+<main>
+    <div class="container">
+        <div class="row text-center m-4">
+            <h1>Administration ateliers</h1>
+        </div>
+        <div class="row m-4">
+            <h2>Liste des ateliers</h2>
+            <div>
+                <a href="{{ path('admin_ateliers_create') }}" class="btn btn-outline-success">Créer</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Places max</th>
+                        <th>Participants</th>
+                        <th>Places restantes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for atelier in list_ateliers %}
+                        <tr>
+                            <td>{{ atelier.title }}</td>
+                            <td>{{ atelier.description }}</td>
+                            <td>{{ atelier.date|date('d/m/Y H:i') }}</td>
+                            <td>{{ atelier.placesMax }}</td>
+                            <td>{{ atelier.getParticipants | length }}</td>
+                            <td>{{ atelier.placesMax - atelier.getParticipants | length }}</td>
+                            {% if atelier.placesMax - atelier.getParticipants | length == 0 %}
+                                <td class="text-danger">Complet</td>
+                            {% else %}
+                                <td class="text-success">Disponible</td>
+                            {% endif %}
+                            <td>
+                                <a href="{{ path('admin_ateliers_show', {'id': atelier.id}) }}" class="btn btn-outline-primary">Voir</a>
+                                <a href="{{ path('admin_ateliers_update', {'id': atelier.id}) }}" class="btn btn-outline-warning">Modifier</a>
+                                <form class="d-inline" action="{{ path('admin_ateliers_delete', {'id': atelier.id}) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet atelier ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ atelier.id) }}">
+                                    <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Pas d'ateliers</td>
+                        </tr>
+                    {% endfor %}
+                </tbody> 
+            </table>
+            <div class="text-center">
+                <a href="{{ path('admin_dashboard') }}" class="btn btn-outline-primary">Retour à l'accueil</a>
+        </div>
+    </div>
+</main>
 {% endblock %}
