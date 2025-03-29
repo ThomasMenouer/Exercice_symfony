@@ -53,7 +53,7 @@ class AteliersType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer',
                 'attr' => [
-                    'class' => 'btn btn-primary mt-3',
+                    'class' => 'btn btn-outline-primary mt-3',
                 ],
             ])
         ;

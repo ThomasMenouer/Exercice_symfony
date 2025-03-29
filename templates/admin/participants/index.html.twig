@@ -35,7 +35,7 @@
                                 <a href="{{ path('admin_participants_show', {'id': participant.id}) }}" class="btn btn-outline-primary">Voir</a>
                                 <a href="{{ path('admin_participants_edit', {'id': participant.id}) }}" class="btn btn-outline-warning">Modifier</a>
                                 <form class="d-inline" action="{{ path('admin_participants_delete', { 'id': participant.id }) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer ce participant ?');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+                                    <input type="hidden" name="token" value="{{ csrf_token('delete-participant') }}">
                                     <button type="submit" class="btn btn-outline-danger">Supprimer</button>
                                 </form>
                             </td>

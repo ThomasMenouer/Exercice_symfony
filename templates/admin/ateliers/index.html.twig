@@ -44,7 +44,7 @@
                                 <a href="{{ path('admin_ateliers_show', {'id': atelier.id}) }}" class="btn btn-outline-primary">Voir</a>
                                 <a href="{{ path('admin_ateliers_update', {'id': atelier.id}) }}" class="btn btn-outline-warning">Modifier</a>
                                 <form class="d-inline" action="{{ path('admin_ateliers_delete', {'id': atelier.id}) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet atelier ?');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ atelier.id) }}">
+                                    <input type="hidden" name="token" value="{{ csrf_token('delete-atelier') }}">
                                     <button type="submit" class="btn btn-outline-danger">Supprimer</button>
                                 </form>
                             </td>

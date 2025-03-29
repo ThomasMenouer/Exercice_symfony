@@ -54,6 +54,7 @@ final class ParticipantsCrudController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Participant inscrit.');
             return $this->redirectToRoute('admin_participants_index');
         }
 
@@ -111,11 +112,18 @@ final class ParticipantsCrudController extends AbstractController
     public function delete(Request $request, Participants $participant, EntityManagerInterface $em): Response
     {
         // Vérifier le token CSRF
-        if ($this->isCsrfTokenValid('delete' . $participant->getId(), $request->request->get('_token'))) {
+        $submitted_token = $request->getPayload()->get('token');
+
+        if($this->isCsrfTokenValid('delete-participant', $submitted_token))
+        {
             $em->remove($participant);
             $em->flush();
+
+            $this->addFlash('success', 'Participant supprimé.');
+            return $this->redirectToRoute('admin_participants_index');
         }
 
+        $this->addFlash('danger', 'Échec de la suppression');
         return $this->redirectToRoute('admin_participants_index');
     }
 }

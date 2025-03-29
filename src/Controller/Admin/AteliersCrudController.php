@@ -39,6 +39,7 @@ final class AteliersCrudController extends AbstractController
             $em->persist($atelier);
             $em->flush();
 
+            $this->addFlash('success', 'Atelier créé');
             return $this->redirectToRoute('admin_ateliers_index');
         }
 
@@ -71,8 +72,10 @@ final class AteliersCrudController extends AbstractController
                 $this->addFlash('danger', 'Le nombre de participants est atteint');
                 return $this->redirectToRoute('admin_ateliers_show', ['id' => $id]);
             }
+
             $em->flush();
 
+            $this->addFlash('success', 'Atelier modifié');
             return $this->redirectToRoute('admin_ateliers_index');
         }
 
@@ -85,12 +88,17 @@ final class AteliersCrudController extends AbstractController
     #[Route('/{id}/delete', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, EntityManagerInterface $em, Ateliers $ateliers): Response
     {
+        $submitted_token = $request->getPayload()->get('token');
         // Vérifier le token CSRF
-        if ($this->isCsrfTokenValid('delete' . $ateliers->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete-atelier', $submitted_token)) {
             $em->remove($ateliers);
             $em->flush();
+
+            $this->addFlash('success', 'Atelier supprimé');
+            return $this->redirectToRoute('admin_ateliers_index');
         }
 
+        $this->addFlash('danger', 'Échec de la suppression');
         return $this->redirectToRoute('admin_ateliers_index');
     }
 }
